@@ -1,0 +1,4 @@
+name: VMapPorter
+version: '${project.version}'
+main: cn.nescraft.vmapporter.VMapPorter
+api-version: '1.21'

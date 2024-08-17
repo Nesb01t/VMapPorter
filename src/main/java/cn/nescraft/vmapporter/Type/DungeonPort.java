@@ -7,8 +7,14 @@ import java.util.List;
 
 public class DungeonPort {
     public String name; // 检查点名字
-    public Location location; // 坐标
+    public Location location; // 固定坐标
     public List<Location> randomLocations; // 随机坐标
+
+    public DungeonPort(String name, Location location, List<Location> randomLocations) {
+        this.name = name;
+        this.location = location;
+        this.randomLocations = randomLocations;
+    }
 
     // 到达检查点的触发
     public void touchCallbackMethod(Player player) {

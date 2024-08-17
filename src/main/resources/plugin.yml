@@ -2,3 +2,8 @@ name: VMapPorter
 version: '${project.version}'
 main: cn.nescraft.vmapporter.VMapPorter
 api-version: '1.21'
+commands:
+  dun:
+    description: 启动地牢
+    usage: /dun <地牢名>
+    permission: vmapporter.dun

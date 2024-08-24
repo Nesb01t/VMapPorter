@@ -17,24 +17,25 @@ import java.util.Map;
 
 public class DungeonUtils {
     public static Dungeon getDungeonByName(String name) {
-        File file = new File(VMapPorter.instance.getDataFolder(), "dungeon-location.yml");
+        File file = new File(VMapPorter.getFolderPath(), "dungeon-location.yml");
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
         return configuration.getObject(name, Dungeon.class);
     }
 
     public static Map<String, Object> getAllDungeons() {
-        File file = new File(VMapPorter.instance.getDataFolder(), "dungeon-location.yml");
+        File file = new File(VMapPorter.getFolderPath(), "dungeon-location.yml");
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
         return configuration.getValues(false);
     }
 
     public static void setDungeonPort(String dunName, String locName, int layer, Location location) throws IOException {
-        File file = new File(VMapPorter.instance.getDataFolder(), "dungeon-location.yml");
+        File file = new File(VMapPorter.getFolderPath(), "dungeon-location.yml");
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
         Dungeon dungeon = getDungeonByName(dunName);
+        // 如果 dungeon 不存在，先创建 dungeon
         if (dungeon == null) {
             Bukkit.broadcastMessage("Dungeon 不存在, 创建新的 Dungeon: " + dunName);
             Map<String, DungeonPort> layer1 = new HashMap<>();
@@ -56,7 +57,7 @@ public class DungeonUtils {
             return;
         }
 
-        // 添加新的 location, 如果 location 存在就加到 random 里面
+        // 在指定 layer 添加新的 location, 如果 location 存在就加到 random 里面
         Map<String, DungeonPort> layerPortMap = getLayerByIdx(dungeon, layer);
         if (layerPortMap != null) {
             Bukkit.broadcastMessage("Layer: " + layer);
@@ -92,5 +93,20 @@ public class DungeonUtils {
             default:
                 return null;
         }
+    }
+
+    public static Integer getLayerPlaceNum(Map<String, DungeonPort> layerPortMap) {
+        return layerPortMap.size();
+    }
+
+    public static Integer getLayerPlaceLocationSum(Map<String, DungeonPort> layerPortMap) {
+        Integer sum = 0;
+        for (DungeonPort port : layerPortMap.values()) {
+            sum += port.randomLocations.size();
+            if (port.location != null) {
+                sum += 1;
+            }
+        }
+        return sum;
     }
 }

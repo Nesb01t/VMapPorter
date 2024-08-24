@@ -7,3 +7,5 @@ commands:
     description: 启动地牢
     usage: /dun <地牢名>
     permission: vmapporter.dun
+depend:
+  - VUtils
